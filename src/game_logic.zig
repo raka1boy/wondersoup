@@ -7,7 +7,12 @@ const SpellType = enum {
 const Entity = struct {
     id:i32,
     name:u8[50] = "",
-    stats:Stats = Stats{}
+    stats:Stats = Stats{},
+    alive:bool,
+
+    fn die(self:*Entity){
+        self.alive = false;
+    }
     
 };
 const Spell = struct {
@@ -30,22 +35,19 @@ const Stats = struct {
         self.mp_regen += x.mp_regen;
     }
     pub fn sub(self: *Stats, x:Stats) !void{
-        self.def -= x.def;
-        self.hp -= x.hp;
-        self.hp_regen -= x.hp_regen;
-        self.mag_def -= x.mag_def;
-        self.mp -= x.mp;
-        self.mp_regen -= x.mp_regen;
+        self.def = std.math.max(0,self.def - x.def);
+        self.hp =std.math.max(0,self.hp - x.hp);
+        self.hp_regen = std.math.max(0,self.hp_regen - x.hp_regen);
+        self.mag_def = std.math.max(0,self.mag_def - x.mag_def);
+        self.mp = std.math.max(0,self.mp - x.mp);
+        self.mp_regen = std.math.max(0,self.mp_regen - x.mp_regen);
     }
 };
 const Item = struct {
     id:i32,
     name:u8[100],
     price:i64,
-    bonusStats:fn() Stats
-    
-
-
+    bonusStats:Stats = Stats{}
 };
 
 
