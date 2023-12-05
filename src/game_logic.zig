@@ -6,14 +6,14 @@ const SpellType = enum {
 }; 
 const Entity = struct {
     id:i32,
-    name:u8[50] = "",
+    name:[50]u8 = "",
     stats:Stats = Stats{},
     alive:bool,
 
-    fn die(self:*Entity){
+    fn die(self:*Entity) void{
         self.alive = false;
     }
-    
+
 };
 const Spell = struct {
     onCast:fn(target:anytype) void
@@ -45,7 +45,7 @@ const Stats = struct {
 };
 const Item = struct {
     id:i32,
-    name:u8[100],
+    name:[100]u8,
     price:i64,
     bonusStats:Stats = Stats{}
 };
