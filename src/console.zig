@@ -23,7 +23,7 @@ fn unixlikeGetTerminalSize() !Size {
     var wsz: std.os.system.winsize = undefined;
     const rc = std.os.system.ioctl(stdout.handle, std.os.system.T.IOCGWINSZ, @intFromPtr(&wsz));
     switch (std.os.errno(rc)) {
-        .SUCCESS => {},
+        .SUCCESS => {}, 
         else => return error.GetTerminalSizeFailed,
     }
     return .{ .columns = wsz.ws_col, .rows = wsz.ws_row };
